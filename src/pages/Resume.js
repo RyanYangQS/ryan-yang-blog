@@ -6,116 +6,106 @@ const Resume = () => {
   const [activeSection, setActiveSection] = useState('experience');
 
   const personalInfo = {
-    name: "Ryan Yang",
-    title: "前端开发工程师",
-    email: "ryan.yang@example.com",
-    phone: "+86 138-0000-0000",
-    location: "北京，中国",
-    github: "https://github.com/ryanyang",
-    linkedin: "https://linkedin.com/in/ryanyang",
-    website: "https://ryanyang.dev",
+    name: "杨青松",
+    title: "高级前端开发工程师",
+    email: "13067915779@163.com",
+    phone: "13067915779",
+    location: "浙江杭州",
+    github: "https://github.com/ryanyang", // 可保留原有
+    linkedin: "https://linkedin.com/in/ryanyang", // 可保留原有
+    website: "https://ryanyang.dev", // 可保留原有
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
   };
 
   const experience = [
     {
       id: 1,
-      company: "字节跳动",
-      position: "高级前端开发工程师",
-      period: "2022.03 - 至今",
-      description: "负责抖音电商平台的前端开发，使用React、TypeScript等技术栈，参与大型项目的架构设计和性能优化。",
-      achievements: [
-        "优化页面加载速度，首屏时间减少40%",
-        "设计并实现组件库，提升开发效率30%",
-        "指导初级开发者，组织技术分享会"
-      ],
-      technologies: ["React", "TypeScript", "Node.js", "MongoDB"]
+      company: "华东勘测设计研究院（中软）",
+      position: "前端开发工程师",
+      period: "2025.01 - 至今",
+      description: "智能水电调度平台：重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%。\n移动端H5工程管控系统：独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内。",
+      achievements: [],
+      technologies: ["React", "TypeScript", "H5", "可视化"]
     },
     {
       id: 2,
-      company: "阿里巴巴",
-      position: "前端开发工程师",
-      period: "2020.07 - 2022.02",
-      description: "参与淘宝移动端开发，负责商品详情页、购物车等核心功能模块的开发维护。",
-      achievements: [
-        "重构商品详情页，提升用户体验",
-        "实现PWA功能，离线缓存商品信息",
-        "参与双11大促活动页面开发"
-      ],
-      technologies: ["Vue", "JavaScript", "Webpack", "Node.js"]
+      company: "智研社（个人工作室）",
+      position: "技术顾问",
+      period: "2024.06 - 2024.12",
+      description: "搭建React+TS技术基座，设计组件开发规范，主导3人前端团队组建，支撑工作室承接电商、教育类SaaS项目开发。",
+      achievements: [],
+      technologies: ["React", "TypeScript", "SaaS"]
     },
     {
       id: 3,
-      company: "腾讯",
+      company: "浙江中吾科技",
+      position: "前端负责人",
+      period: "2022.08 - 2024.03",
+      description: "一道迈ERP系统（React+wujie微前端）：主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理。\n自研业务组件库（50+组件），减少重复开发工时30%。\n工业PDA解决方案：开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%。",
+      achievements: [],
+      technologies: ["React", "微前端", "H5"]
+    },
+    {
+      id: 4,
+      company: "挖财网络",
+      position: "高级前端开发",
+      period: "2020.11 - 2022.06",
+      description: "墨子低代码调试系统：设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具。\nAMX资产管理系统：推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗。",
+      achievements: [],
+      technologies: ["Vue", "低代码"]
+    },
+    {
+      id: 5,
+      company: "海康威视",
       position: "前端开发工程师",
-      period: "2019.06 - 2020.06",
-      description: "参与微信小程序开发，负责企业级应用的前端界面和交互逻辑实现。",
-      achievements: [
-        "开发多个企业级小程序",
-        "优化小程序性能，减少内存占用",
-        "参与小程序框架升级"
-      ],
-      technologies: ["微信小程序", "JavaScript", "CSS3", "HTML5"]
+      period: "2016.12 - 2020.06",
+      description: "公安多维融合平台（Vue2+GIS）：集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策。\n国家级雪亮工程：开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%。",
+      achievements: [],
+      technologies: ["Vue", "GIS", "AR/VR"]
     }
   ];
 
   const education = [
     {
-      id: 1,
-      school: "北京大学",
-      degree: "计算机科学与技术",
-      period: "2015.09 - 2019.06",
-      description: "主修计算机科学，辅修数学。参与多个学术项目，获得优秀毕业生称号。",
-      achievements: [
-        "GPA: 3.8/4.0",
-        "获得国家奖学金",
-        "参与ACM程序设计竞赛"
-      ]
+      school: "燕山大学",
+      major: "电子科学与技术",
+      degree: "本科",
+      period: "2012 - 2016"
     }
   ];
 
   const projects = [
     {
-      id: 1,
-      name: "个人博客系统",
-      description: "基于React和Node.js构建的全栈博客系统，支持Markdown编辑、评论系统、用户管理等功能。",
-      period: "2023.01 - 2023.03",
-      technologies: ["React", "Node.js", "MongoDB", "Express"],
-      link: "https://github.com/ryanyang/blog",
-      features: [
-        "响应式设计，支持移动端",
-        "Markdown编辑器",
-        "评论系统",
-        "用户认证"
-      ]
+      name: "智能水电调度平台",
+      highlights: ["重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%"]
     },
     {
-      id: 2,
-      name: "电商管理系统",
-      description: "企业级电商后台管理系统，包含商品管理、订单处理、用户管理、数据分析等模块。",
-      period: "2022.06 - 2022.12",
-      technologies: ["Vue", "TypeScript", "Element UI", "Node.js"],
-      link: "https://github.com/ryanyang/admin",
-      features: [
-        "权限管理系统",
-        "数据可视化",
-        "批量操作",
-        "实时通知"
-      ]
+      name: "移动端H5工程管控系统",
+      highlights: ["独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内"]
     },
     {
-      id: 3,
-      name: "在线教育平台",
-      description: "基于React Native开发的移动端教育应用，支持视频播放、在线测试、学习进度跟踪等功能。",
-      period: "2021.09 - 2022.05",
-      technologies: ["React Native", "Redux", "Node.js", "MongoDB"],
-      link: "https://github.com/ryanyang/education",
-      features: [
-        "跨平台支持",
-        "离线学习",
-        "学习数据分析",
-        "社交功能"
-      ]
+      name: "一道迈ERP系统",
+      highlights: ["主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理"]
+    },
+    {
+      name: "工业PDA解决方案",
+      highlights: ["开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%"]
+    },
+    {
+      name: "墨子低代码调试系统",
+      highlights: ["设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具"]
+    },
+    {
+      name: "AMX资产管理系统",
+      highlights: ["推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗"]
+    },
+    {
+      name: "公安多维融合平台",
+      highlights: ["集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策"]
+    },
+    {
+      name: "国家级雪亮工程",
+      highlights: ["开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%"]
     }
   ];
 
@@ -160,8 +150,12 @@ const Resume = () => {
   ];
 
   const handleDownload = () => {
-    // 这里可以实现PDF下载功能
-    alert('简历下载功能开发中...');
+    const link = document.createElement('a');
+    link.href = '/杨青松-高级前端-9年-13067915779.pdf';
+    link.download = '杨青松-前端简历.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -396,7 +390,7 @@ const Resume = () => {
                 >
                   {education.map((edu, index) => (
                     <motion.div
-                      key={edu.id}
+                      key={index}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}

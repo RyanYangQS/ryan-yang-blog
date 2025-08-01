@@ -6,7 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "build",
-        "installCommand": "npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund",
+        "installCommand": "pnpm install --frozen-lockfile --prefer-offline",
         "buildCommand": "npm run build",
         "maxLambdaSize": "15mb"
       }

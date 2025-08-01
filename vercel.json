@@ -7,7 +7,8 @@
       "config": {
         "distDir": "build",
         "installCommand": "npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund",
-        "buildCommand": "npm run build"
+        "buildCommand": "npm run build",
+        "maxLambdaSize": "15mb"
       }
     }
   ],
@@ -36,6 +37,19 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     },
@@ -53,8 +67,17 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "app/api/**/*.js": {
+      "maxDuration": 10
+    }
+  }
 } 

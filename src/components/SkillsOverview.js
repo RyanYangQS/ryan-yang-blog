@@ -14,7 +14,7 @@ const SkillsOverview = () => {
     {
       icon: Zap,
       title: "框架生态",
-      skills: ["React", "Vue", "Next.js", "Nuxt.js"],
+      skills: ["React", "Vue", "Next.js", "wujie微前端"],
       color: "from-purple-500 to-pink-500",
       description: "现代前端框架技术"
     },
@@ -35,7 +35,7 @@ const SkillsOverview = () => {
     {
       icon: Globe,
       title: "部署运维",
-      skills: ["Docker", "AWS", "Vercel", "Netlify"],
+      skills: ["Docker", "Aliyun", "Vercel", "Netlify"],
       color: "from-indigo-500 to-purple-500",
       description: "云服务与部署"
     },

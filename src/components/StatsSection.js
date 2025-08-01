@@ -12,19 +12,19 @@ const StatsSection = () => {
     },
     {
       icon: Users,
-      number: "1000+",
-      label: "读者关注",
-      description: "技术社区影响力"
+      number: "100+",
+      label: "工作对接",
+      description: "和各个岗位同事进行工作对接"
     },
     {
       icon: Star,
-      number: "20+",
-      label: "开源项目",
-      description: "GitHub贡献"
+      number: "30+",
+      label: "参与项目",
+      description: "持续在一线参与项目开发"
     },
     {
       icon: TrendingUp,
-      number: "5+",
+      number: "8+",
       label: "年开发经验",
       description: "专业成长历程"
     }

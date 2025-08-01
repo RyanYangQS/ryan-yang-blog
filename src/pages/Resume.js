@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Award, BookOpen, Building, Calendar, Code, Download, Github, Globe, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { BookOpen, Building, Calendar, Code, Download, Mail, MapPin, Phone } from 'lucide-react';
 import React, { useState } from 'react';
 
 const Resume = () => {
@@ -14,7 +14,7 @@ const Resume = () => {
     github: "https://github.com/ryanyang", // 可保留原有
     linkedin: "https://linkedin.com/in/ryanyang", // 可保留原有
     website: "https://ryanyang.dev", // 可保留原有
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    avatar: "/Ryan.png"
   };
 
   const experience = [
@@ -76,53 +76,73 @@ const Resume = () => {
 
   const projects = [
     {
+      id: 1,
       name: "智能水电调度平台",
-      highlights: ["重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%"]
+      highlights: ["重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%"],
+      period: "2025.01 - 至今"
     },
     {
+      id: 2,
       name: "移动端H5工程管控系统",
-      highlights: ["独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内"]
+      highlights: ["独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内"],
+      period: "2024.06 - 2024.12"
     },
     {
+      id: 3,
       name: "一道迈ERP系统",
-      highlights: ["主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理"]
+      highlights: ["主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理"],
+      period: "2022.08 - 2024.03"
     },
     {
+      id: 4,
       name: "工业PDA解决方案",
-      highlights: ["开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%"]
+      highlights: ["开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%"],
+      period: "2020.11 - 2022.06"
     },
     {
+      id: 5,
       name: "墨子低代码调试系统",
-      highlights: ["设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具"]
+      highlights: ["设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具"],
+      period: "2016.12 - 2020.06"
     },
     {
+      id: 6,
       name: "AMX资产管理系统",
-      highlights: ["推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗"]
+      highlights: ["推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗"],
+      period: "2024.06 - 2024.12"
     },
     {
+      id: 7,
       name: "公安多维融合平台",
-      highlights: ["集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策"]
+      highlights: ["集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策"],
+      period: "2020.11 - 2022.06"
     },
     {
+      id: 8,
       name: "国家级雪亮工程",
-      highlights: ["开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%"]
+      highlights: ["开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%"],
+      period: "2016.12 - 2020.06"
     }
   ];
 
   const skills = [
     {
+      id: 1,
       category: "前端技术",
-      items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Vue", "Next.js", "Nuxt.js"]
+      items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Vue", "Next.js", "wujie微前端"]
     },
     {
+      id: 2,
       category: "后端技术",
       items: ["Node.js", "Express", "MongoDB", "PostgreSQL", "Redis", "GraphQL"]
     },
     {
+      id: 3,
       category: "开发工具",
-      items: ["Git", "Webpack", "Vite", "Docker", "AWS", "Vercel"]
+      items: ["Git", "Webpack", "Vite", "Docker", "Aliyun", "Vercel"]
     },
     {
+      id: 4,
       category: "其他技能",
       items: ["微信小程序", "React Native", "PWA", "性能优化", "单元测试"]
     }
@@ -130,18 +150,21 @@ const Resume = () => {
 
   const certifications = [
     {
+      id: 1,
       name: "AWS Certified Developer",
       issuer: "Amazon Web Services",
       date: "2023.06",
       description: "云服务开发和部署认证"
     },
     {
+      id: 2,
       name: "Google Cloud Professional Developer",
       issuer: "Google",
       date: "2022.12",
       description: "Google Cloud平台开发认证"
     },
     {
+      id: 3,
       name: "Microsoft Certified: Azure Developer",
       issuer: "Microsoft",
       date: "2022.08",
@@ -229,7 +252,7 @@ const Resume = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center space-x-4 mt-6">
+              {/* <div className="flex justify-center space-x-4 mt-6">
                 <motion.a
                   href={personalInfo.github}
                   target="_blank"
@@ -257,7 +280,7 @@ const Resume = () => {
                 >
                   <Globe className="w-5 h-5" />
                 </motion.a>
-              </div>
+              </div> */}
             </div>
 
             {/* Skills */}
@@ -299,7 +322,7 @@ const Resume = () => {
                 { id: 'experience', label: '工作经历', icon: Building },
                 { id: 'education', label: '教育背景', icon: BookOpen },
                 { id: 'projects', label: '项目经验', icon: Code },
-                { id: 'certifications', label: '认证证书', icon: Award }
+                // { id: 'certifications', label: '认证证书', icon: Award }
               ].map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -353,7 +376,7 @@ const Resume = () => {
                         </div>
                         <p className="text-gray-300 mb-4">{exp.description}</p>
                         <div className="mb-4">
-                          <h4 className="text-white font-medium mb-2">主要成就：</h4>
+                          {/* <h4 className="text-white font-medium mb-2">主要成就：</h4> */}
                           <ul className="space-y-1">
                             {exp.achievements.map((achievement, achievementIndex) => (
                               <li key={achievementIndex} className="text-gray-300 text-sm flex items-start space-x-2">
@@ -409,15 +432,8 @@ const Resume = () => {
                         </div>
                         <p className="text-gray-300 mb-4">{edu.description}</p>
                         <div>
-                          <h4 className="text-white font-medium mb-2">主要成就：</h4>
-                          <ul className="space-y-1">
-                            {edu.achievements.map((achievement, achievementIndex) => (
-                              <li key={achievementIndex} className="text-gray-300 text-sm flex items-start space-x-2">
-                                <span className="text-primary-400 mt-1">•</span>
-                                <span>{achievement}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <h4 className="text-white font-medium mb-2">专业：</h4>
+                          <p className="text-gray-300">{edu.major}</p>
                         </div>
                       </div>
                     </motion.div>
@@ -445,14 +461,14 @@ const Resume = () => {
                       <div className="flex justify-between items-start mb-4">
                         <div>
                           <h3 className="text-xl font-bold text-white mb-1">{project.name}</h3>
-                          <p className="text-gray-300">{project.description}</p>
+                          <p className="text-gray-300">{project.highlights}</p>
                         </div>
                         <div className="flex items-center space-x-2 text-gray-400">
                           <Calendar className="w-4 h-4" />
                           <span className="text-sm">{project.period}</span>
                         </div>
                       </div>
-                      <div className="mb-4">
+                      {/* <div className="mb-4">
                         <h4 className="text-white font-medium mb-2">主要功能：</h4>
                         <ul className="space-y-1">
                           {project.features.map((feature, featureIndex) => (
@@ -472,15 +488,15 @@ const Resume = () => {
                             {tech}
                           </span>
                         ))}
-                      </div>
-                      <a
+                      </div> */}
+                      {/* <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary-400 hover:text-primary-300 text-sm font-medium"
                       >
                         查看项目 →
-                      </a>
+                      </a> */}
                     </motion.div>
                   ))}
                 </motion.div>

@@ -331,7 +331,7 @@ const Admin = () => {
                     />
                     <input
                       type="text"
-                      defaultValue="+86 138-0000-0000"
+                      defaultValue="+86 13067915779"
                       placeholder="电话"
                       className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:border-primary-500 focus:outline-none"
                     />

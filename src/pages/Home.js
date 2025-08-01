@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FeaturedPosts from '../components/FeaturedPosts';
@@ -26,9 +26,9 @@ const Home = () => {
       color: "from-green-500 to-blue-600"
     },
     {
-      title: "开源贡献者",
-      subtitle: "积极参与开源项目",
-      description: "为开源社区贡献代码，推动前端技术发展",
+      title: "摄影爱好者",
+      subtitle: "喜欢用相机记录生活",
+      description: "记录美好瞬间 分享美好生活",
       image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       color: "from-purple-500 to-pink-600"
     }
@@ -124,25 +124,25 @@ const Home = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>
-              <motion.div
+              {/* <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <a
-                  href="mailto:ryan.yang@example.com"
+                  href="mailto:13067915779@163.com"
                   className="btn-secondary inline-flex items-center space-x-2"
                 >
                   <Mail className="w-5 h-5" />
                   <span>联系我</span>
                 </a>
-              </motion.div>
+              </motion.div> */}
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Social Links */}
-      <section className="py-12 px-4">
+      {/* <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -172,7 +172,7 @@ const Home = () => {
               <Linkedin className="w-6 h-6" />
             </motion.a>
             <motion.a
-              href="mailto:ryan.yang@example.com"
+              href="mailto:13067915779@163.com"
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="p-4 bg-dark-800 rounded-full hover:bg-primary-600 transition-all duration-300"
@@ -181,7 +181,7 @@ const Home = () => {
             </motion.a>
           </motion.div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

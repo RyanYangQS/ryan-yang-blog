@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Code, Github, Heart, Linkedin, Mail } from 'lucide-react';
+import { Code, Heart } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ const Footer = () => {
             <p className="text-gray-300 mb-6 max-w-md">
               前端开发工程师，专注于现代Web技术栈。热爱创造优秀的用户体验，擅长React、Vue、TypeScript等现代前端技术。
             </p>
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <motion.a
                 href="https://github.com/ryanyang"
                 target="_blank"
@@ -49,14 +49,14 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5" />
               </motion.a>
               <motion.a
-                href="mailto:ryan.yang@example.com"
+                href="mailto:13067915779@163.com"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="p-3 bg-dark-800 rounded-lg hover:bg-primary-600 transition-all duration-300"
               >
                 <Mail className="w-5 h-5" />
               </motion.a>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Quick Links */}
@@ -114,15 +114,15 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="text-gray-300">
                 <span className="text-primary-400">邮箱：</span>
-                ryan.yang@example.com
+                13067915779@163.com
               </li>
               <li className="text-gray-300">
                 <span className="text-primary-400">电话：</span>
-                +86 138-0000-0000
+                +86 13067915779
               </li>
               <li className="text-gray-300">
                 <span className="text-primary-400">地址：</span>
-                北京，中国
+                杭州，中国
               </li>
             </ul>
           </motion.div>

@@ -172,7 +172,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 📞 联系方式
 
-- **邮箱**: ryan.yang@example.com
+- **邮箱**: 13067915779@163.com
 - **GitHub**: [@ryanyang](https://github.com/ryanyang)
 - **LinkedIn**: [Ryan Yang](https://linkedin.com/in/ryanyang)
 

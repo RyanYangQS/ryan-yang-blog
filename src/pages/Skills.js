@@ -68,7 +68,7 @@ const Skills = () => {
 
   // 柱状图数据改为条形图
   const barData = {
-    labels: ['React', 'Vue', 'TypeScript', 'Node.js', 'MongoDB', 'PostgreSQL', 'Docker', 'AWS'],
+    labels: ['React', 'Vue', 'TypeScript', 'Node.js', 'MongoDB', 'PostgreSQL', 'Docker', 'Aliyun'],
     datasets: [
       {
         label: '项目经验',
@@ -384,8 +384,8 @@ const Skills = () => {
       skills: [
         { name: "React", level: 90, description: "Hooks、Context、性能优化、状态管理" },
         { name: "Vue", level: 85, description: "Composition API、Vuex、Vue Router" },
-        { name: "Next.js", level: 80, description: "SSR、SSG、API Routes、中间件" },
-        { name: "Nuxt.js", level: 75, description: "服务端渲染、静态生成、模块系统" }
+        { name: "Next.js", level: 60, description: "SSR、SSG、API Routes、中间件" },
+        { name: "wujie微前端", level: 65, description: "微前端、微服务、微应用" }
       ],
       color: "from-purple-500 to-pink-500"
     },
@@ -395,8 +395,8 @@ const Skills = () => {
       skills: [
         { name: "Node.js", level: 80, description: "Express、中间件、异步处理、性能优化" },
         { name: "MongoDB", level: 75, description: "聚合管道、索引优化、数据建模" },
-        { name: "PostgreSQL", level: 70, description: "SQL查询、事务处理、性能调优" },
-        { name: "Redis", level: 65, description: "缓存策略、数据结构、集群配置" }
+        { name: "MySQL", level: 50, description: "SQL查询、事务处理、性能调优" },
+        { name: "Redis", level: 55, description: "缓存策略、数据结构、集群配置" }
       ],
       color: "from-green-500 to-emerald-500"
     },
@@ -405,9 +405,9 @@ const Skills = () => {
       title: "部署运维",
       skills: [
         { name: "Docker", level: 75, description: "容器化、镜像构建、编排部署" },
-        { name: "AWS", level: 70, description: "EC2、S3、Lambda、CloudFormation" },
+        { name: "Aliyun", level: 70, description: "云服务器、对象存储、CDN、负载均衡" },
         { name: "Vercel", level: 85, description: "静态部署、Serverless Functions" },
-        { name: "Netlify", level: 80, description: "持续部署、表单处理、函数" }
+        { name: "Nginx", level: 80, description: "反向代理、负载均衡、SSL证书" }
       ],
       color: "from-indigo-500 to-purple-500"
     }
@@ -480,9 +480,9 @@ const Skills = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
                   { icon: Code, label: "技术栈", value: "20+", description: "掌握的技术" },
-                  { icon: Star, label: "项目经验", value: "50+", description: "完成的项目" },
-                  { icon: TrendingUp, label: "学习时长", value: "5年+", description: "持续学习" },
-                  { icon: Shield, label: "认证", value: "10+", description: "技术认证" }
+                  { icon: Star, label: "项目经验", value: "30+", description: "完成的项目" },
+                  { icon: TrendingUp, label: "学习时长", value: "8年+", description: "持续学习" },
+                  { icon: Shield, label: "团队", value: "2年+", description: "组建团队" }
                 ].map((stat, index) => {
                   const Icon = stat.icon;
                   return (

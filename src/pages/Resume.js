@@ -174,8 +174,8 @@ const Resume = () => {
 
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = '/杨青松-高级前端-9年-13067915779.pdf';
-    link.download = '杨青松-前端简历.pdf';
+    link.href = '/杨青松web前端开发.pdf';
+    link.download = '杨青松web前端开发.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

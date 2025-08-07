@@ -196,6 +196,10 @@ const Blog = () => {
                     src={post.frontmatter.coverImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}
                     alt={post.frontmatter.title}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // 图片加载失败时使用默认图片
+                      e.target.src = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>

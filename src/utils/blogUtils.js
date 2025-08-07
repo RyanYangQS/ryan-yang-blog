@@ -1,11 +1,5 @@
 // 博客文章读取工具
 import matter from 'gray-matter';
-// 直接导入buffer包
-import { Buffer } from 'buffer';
-
-// 调试日志：检查Buffer是否正确导入
-console.log('Buffer imported:', Buffer);
-console.log('Buffer is defined:', typeof Buffer !== 'undefined');
 
 // 从src/content/blog目录动态导入所有markdown文件
 const postsContext = require.context('../content/blog', false, /\.md$/);
@@ -32,18 +26,47 @@ export const getAllPosts = async () => {
       const fileContent = typeof content === 'string' ? content : content.default;
       const document = matter(fileContent);
       
+      // 使用markdown文件头部的frontmatter信息
+      const frontmatter = {
+        title: document.data.title || slug,
+        date: document.data.date || new Date().toISOString(),
+        author: document.data.author || '杨青松',
+        tags: document.data.tags || [],
+        excerpt: document.data.excerpt || '',
+        coverImage: document.data.coverImage || '',
+        // 保留所有原始的frontmatter数据
+        ...document.data
+      };
+      
       posts.push({
         slug,
-        frontmatter: document.data,
+        frontmatter,
         content: document.content,
       });
     } catch (error) {
       console.error(`Error parsing post ${slug}:`, error);
+      // 添加默认文章数据以防解析失败
+      posts.push({
+        slug,
+        frontmatter: {
+          title: slug,
+          date: new Date().toISOString(),
+          author: '杨青松',
+          tags: [],
+          excerpt: '文章加载中...',
+          coverImage: '',
+        },
+        content: '文章内容加载失败，请稍后重试。',
+      });
     }
   }
 
   // 按日期排序
-  return posts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+  return posts.sort((a, b) => {
+    const dateA = new Date(a.frontmatter.date);
+    const dateB = new Date(b.frontmatter.date);
+    return dateB - dateA;
+  });
 };
 
 // 获取单个博客文章
@@ -57,18 +80,27 @@ export const getPostBySlug = async (slug) => {
 
     // 确保在浏览器环境中安全地处理内容
     const fileContent = typeof content === 'string' ? content : content.default;
-    // 显式使用导入的Buffer
-    const document = matter(fileContent, { Buffer });
+    const document = matter(fileContent);
+    
+    // 使用markdown文件头部的frontmatter信息
+    const frontmatter = {
+      title: document.data.title || slug,
+      date: document.data.date || new Date().toISOString(),
+      author: document.data.author || '杨青松',
+      tags: document.data.tags || [],
+      excerpt: document.data.excerpt || '',
+      coverImage: document.data.coverImage || '',
+      // 保留所有原始的frontmatter数据
+      ...document.data
+    };
     
     return {
       slug,
-      frontmatter: document.data,
+      frontmatter,
       content: document.content,
     };
   } catch (error) {
     console.error(`Error loading post ${slug}:`, error);
-    // 输出详细错误信息以调试
-    console.error('Error details:', error.message, error.stack);
     return null;
   }
 };
@@ -81,19 +113,26 @@ export const getExcerpt = (content, maxLength = 150) => {
 
 // 格式化日期
 export const formatDate = (dateString) => {
-  // 添加调试日志
-  console.log('格式化日期:', dateString);
-  const date = new Date(dateString);
-  
-  // 检查日期是否有效
-  if (isNaN(date.getTime())) {
-    console.error('无效的日期字符串:', dateString);
+  if (!dateString) {
     return '无效日期';
   }
   
-  return date.toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  try {
+    const date = new Date(dateString);
+    
+    // 检查日期是否有效
+    if (isNaN(date.getTime())) {
+      console.error('无效的日期字符串:', dateString);
+      return '无效日期';
+    }
+    
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  } catch (error) {
+    console.error('日期格式化错误:', error);
+    return '无效日期';
+  }
 };

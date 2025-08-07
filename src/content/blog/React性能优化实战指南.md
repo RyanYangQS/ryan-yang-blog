@@ -4,7 +4,7 @@ date: "2024-01-15"
 author: "杨青松"
 tags: ["React", "性能优化", "前端"]
 excerpt: "深入探讨React应用性能优化的核心技巧和最佳实践，从组件优化到打包优化全方位提升应用性能。"
-coverImage: "/images/react-performance.jpg"
+coverImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
 ---
 
 # React性能优化实战指南

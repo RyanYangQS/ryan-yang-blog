@@ -1,41 +1,103 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllPosts, formatDate } from '../utils/blogUtils';
+
+// 计算阅读时间（基于中文字符数）
+const calculateReadTime = (content) => {
+  const chineseCharCount = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const englishWordCount = content.replace(/[\u4e00-\u9fa5]/g, '').split(/\s+/).length;
+  const totalWords = chineseCharCount + englishWordCount;
+  const readTimeMinutes = Math.ceil(totalWords / 300); // 假设每分钟300字
+  return `${readTimeMinutes}分钟`;
+};
 
 const FeaturedPosts = () => {
-  const featuredPosts = [
-    {
-      id: 1,
-      title: "React 18 新特性深度解析",
-      excerpt: "深入探讨React 18的并发特性、自动批处理、Suspense等新功能，以及如何在实际项目中应用这些特性提升用户体验。",
-      category: "React",
-      readTime: "8分钟",
-      publishDate: "2024-01-15",
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      tags: ["React", "JavaScript", "前端"]
-    },
-    {
-      id: 2,
-      title: "TypeScript 高级类型技巧",
-      excerpt: "分享TypeScript中高级类型的使用技巧，包括条件类型、映射类型、模板字面量类型等，帮助你写出更安全的代码。",
-      category: "TypeScript",
-      readTime: "12分钟",
-      publishDate: "2024-01-10",
-      image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      tags: ["TypeScript", "JavaScript", "类型系统"]
-    },
-    {
-      id: 3,
-      title: "现代CSS布局技术对比",
-      excerpt: "对比Flexbox、Grid、Container Queries等现代CSS布局技术，分析它们的适用场景和最佳实践。",
-      category: "CSS",
-      readTime: "10分钟",
-      publishDate: "2024-01-05",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      tags: ["CSS", "布局", "响应式"]
-    }
-  ];
+  const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadLatestPosts = async () => {
+      try {
+        const allPosts = await getAllPosts();
+        // 获取最新的三篇文章
+        const latestPosts = allPosts.slice(0, 3).map((post, index) => ({
+          id: index + 1,
+          slug: post.slug,
+          title: post.frontmatter.title,
+          excerpt: post.frontmatter.excerpt || '文章摘要加载中...',
+          category: post.frontmatter.tags?.[0] || '技术',
+          readTime: calculateReadTime(post.content),
+          publishDate: formatDate(post.frontmatter.date),
+          image: post.frontmatter.coverImage || "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          tags: post.frontmatter.tags || []
+        }));
+        
+        setFeaturedPosts(latestPosts);
+      } catch (error) {
+        console.error('加载最新文章失败:', error);
+        // 设置默认文章
+        setFeaturedPosts([
+          {
+            id: 1,
+            slug: 'react-hooks-depth-analysis',
+            title: "React Hooks 深度解析",
+            excerpt: "深入解析React Hooks的核心概念和使用技巧，从useState到自定义Hooks，掌握函数式组件的新范式。",
+            category: "React",
+            readTime: "8分钟",
+            publishDate: "2024-12-15",
+            image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            tags: ["React", "Hooks", "前端"]
+          },
+          {
+            id: 2,
+            slug: 'typescript-frontend-practice',
+            title: "TypeScript 在前端开发中的实践",
+            excerpt: "深入探讨TypeScript在前端开发中的应用实践，从基础类型到高级特性，掌握类型安全的JavaScript开发。",
+            category: "TypeScript",
+            readTime: "12分钟",
+            publishDate: "2024-12-10",
+            image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            tags: ["TypeScript", "JavaScript", "类型系统"]
+          },
+          {
+            id: 3,
+            slug: 'modern-frontend-engineering',
+            title: "现代前端工程化实践",
+            excerpt: "深入探讨现代前端工程化的核心概念和实践经验，从构建工具到自动化部署，掌握企业级前端开发流程。",
+            category: "工程化",
+            readTime: "10分钟",
+            publishDate: "2024-12-05",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            tags: ["前端工程化", "Webpack", "CI/CD"]
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadLatestPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {[1, 2, 3].map((index) => (
+          <div key={index} className="bg-gradient-to-br from-dark-800 to-dark-700 rounded-2xl overflow-hidden border border-dark-600 animate-pulse">
+            <div className="h-48 bg-dark-600"></div>
+            <div className="p-6">
+              <div className="h-4 bg-dark-600 rounded mb-4"></div>
+              <div className="h-6 bg-dark-600 rounded mb-2"></div>
+              <div className="h-4 bg-dark-600 rounded mb-2"></div>
+              <div className="h-4 bg-dark-600 rounded w-3/4"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -49,7 +111,7 @@ const FeaturedPosts = () => {
           whileHover={{ y: -10 }}
           className="group"
         >
-          <Link to={`/blog/${post.id}`} className="block">
+          <Link to={`/blog/${post.slug}`} className="block">
             <div className="bg-gradient-to-br from-dark-800 to-dark-700 rounded-2xl overflow-hidden border border-dark-600 hover:border-primary-500 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/20">
               {/* Image */}
               <div className="relative h-48 overflow-hidden">

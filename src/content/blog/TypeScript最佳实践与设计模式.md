@@ -1,6 +1,6 @@
 ---
 title: "TypeScript最佳实践与设计模式"
-date: "2024-01-20"
+date: "2024-06-20"
 author: "杨青松"
 tags: ["TypeScript", "设计模式", "前端"]
 excerpt: "分享TypeScript在企业级项目中的最佳实践，包括类型设计、接口规范、设计模式应用等核心内容。"

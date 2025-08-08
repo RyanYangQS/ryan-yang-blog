@@ -1,39 +1,31 @@
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-
-// 创建事件模型
-const EventSchema = {
-  action: String,
-  page: String,
-  sessionId: String,
-  userId: String,
-  timestamp: Number,
-  data: Object
-};
+import { NextRequest, NextResponse } from 'next/server'
+import supabaseAnalyticsService from '@/lib/supabaseAnalyticsService'
 
 export async function POST(request: NextRequest) {
   try {
-    await dbConnect();
+    const body = await request.json()
+    const { action, sessionId, userId, page, data } = body
     
-    const body = await request.json();
-    const { action, page, sessionId, userId, timestamp, data } = body;
-    
-    // 这里可以存储到数据库，暂时只记录到控制台
-    console.log('User Event:', {
-      action,
-      page,
+    const success = await supabaseAnalyticsService.trackUserEvent(action, {
       sessionId,
       userId,
-      timestamp,
-      data
-    });
+      page,
+      eventData: data
+    })
     
-    return NextResponse.json({ success: true });
+    if (success) {
+      return NextResponse.json({ success: true }, { status: 201 })
+    } else {
+      return NextResponse.json(
+        { error: 'Failed to track user event' },
+        { status: 500 }
+      )
+    }
   } catch (error) {
-    console.error('Error tracking event:', error);
+    console.error('Error tracking user event:', error)
     return NextResponse.json(
-      { error: 'Failed to track event' },
+      { error: 'Failed to track user event' },
       { status: 500 }
-    );
+    )
   }
 }

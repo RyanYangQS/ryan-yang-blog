@@ -1,38 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-// 存储在线用户信息的内存缓存
-const onlineUsers = new Map();
-const HEARTBEAT_TIMEOUT = 60000; // 60秒超时
+import { NextRequest, NextResponse } from 'next/server'
+import supabaseAnalyticsService from '@/lib/supabaseAnalyticsService'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { sessionId, userId, lastActivity, timestamp } = body;
+    const body = await request.json()
+    const { sessionId, userId, lastActivity } = body
     
-    // 更新在线用户信息
-    onlineUsers.set(sessionId, {
-      userId,
-      lastActivity,
-      timestamp
-    });
+    const success = await supabaseAnalyticsService.sendHeartbeat(sessionId, userId, lastActivity)
     
-    // 清理超时的在线用户
-    const now = Date.now();
-    for (const [sid, userData] of onlineUsers.entries()) {
-      if (now - userData.lastActivity > HEARTBEAT_TIMEOUT) {
-        onlineUsers.delete(sid);
-      }
+    if (success) {
+      return NextResponse.json({ success: true }, { status: 200 })
+    } else {
+      return NextResponse.json(
+        { error: 'Failed to send heartbeat' },
+        { status: 500 }
+      )
     }
-    
-    return NextResponse.json({ 
-      success: true,
-      onlineUsers: onlineUsers.size
-    });
   } catch (error) {
-    console.error('Error processing heartbeat:', error);
+    console.error('Error sending heartbeat:', error)
     return NextResponse.json(
-      { error: 'Failed to process heartbeat' },
+      { error: 'Failed to send heartbeat' },
       { status: 500 }
-    );
+    )
   }
 }

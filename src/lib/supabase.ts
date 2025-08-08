@@ -55,4 +55,58 @@ export interface Analytics {
   timestamp: string
   user_agent?: string
   ip_address?: string
+  session_id?: string
+  user_id?: string
+  url?: string
+  referrer?: string
+  screen_size?: string
+  viewport_size?: string
+  language?: string
+  timezone?: string
+}
+
+export interface UserSession {
+  id: string
+  session_id: string
+  user_id?: string
+  user_agent?: string
+  ip_address?: string
+  last_activity: string
+  created_at: string
+  updated_at: string
+}
+
+export interface UserEvent {
+  id: string
+  session_id: string
+  user_id?: string
+  action: string
+  page?: string
+  data?: any
+  timestamp: string
+}
+
+export interface HeartbeatLog {
+  id: string
+  session_id: string
+  user_id?: string
+  last_activity: string
+  user_agent?: string
+  ip_address?: string
+  timestamp: string
+}
+
+export interface AnalyticsSummary {
+  total_views: number
+  unique_sessions: number
+  unique_users: number
+  date: string
+  page: string
+  page_views: number
+}
+
+export interface RealtimeStats {
+  online_users: number
+  today_views: number
+  today_users: number
 }

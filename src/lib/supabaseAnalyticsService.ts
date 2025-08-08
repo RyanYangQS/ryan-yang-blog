@@ -1,9 +1,22 @@
 import { supabase, RealtimeStats } from './supabase'
 
+// 检查 Supabase 连接是否可用
+const isSupabaseAvailable = () => {
+  const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
+  const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
+  return !!(supabaseUrl && supabaseAnonKey)
+}
+
 // Supabase统计服务
 class SupabaseAnalyticsService {
   // 记录页面访问
   async trackPageView(page: string, additionalData: any = {}) {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, skipping page view tracking')
+      return false
+    }
+
     try {
       const { error } = await supabase
         .from('analytics')
@@ -36,6 +49,12 @@ class SupabaseAnalyticsService {
 
   // 记录用户事件
   async trackUserEvent(action: string, data: any = {}) {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, skipping user event tracking')
+      return false
+    }
+
     try {
       const { error } = await supabase
         .from('user_events')
@@ -63,6 +82,12 @@ class SupabaseAnalyticsService {
 
   // 更新或创建用户会话
   async updateUserSession(sessionId: string, userId?: string, userAgent?: string) {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, skipping user session update')
+      return false
+    }
+
     try {
       const sessionData = {
         session_id: sessionId,
@@ -93,6 +118,12 @@ class SupabaseAnalyticsService {
 
   // 发送心跳
   async sendHeartbeat(sessionId: string, userId?: string, lastActivity?: number) {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, skipping heartbeat')
+      return false
+    }
+
     try {
       const { error } = await supabase
         .from('heartbeat_logs')
@@ -118,6 +149,16 @@ class SupabaseAnalyticsService {
 
   // 获取实时统计
   async getRealTimeStats(): Promise<RealtimeStats | null> {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, returning default real-time stats')
+      return {
+        online_users: 1,
+        today_views: 1,
+        today_users: 1
+      }
+    }
+
     try {
       // 首先尝试从视图获取数据
       const { data: viewData, error: viewError } = await supabase
@@ -187,6 +228,19 @@ class SupabaseAnalyticsService {
 
   // 获取历史统计
   async getHistoricalStats(days: number = 7) {
+    // 检查 Supabase 是否可用
+    if (!isSupabaseAvailable()) {
+      console.warn('Supabase not available, returning default historical stats')
+      return {
+        totalViews: 1,
+        uniqueUsers: 1,
+        uniqueSessions: 1,
+        topPages: {},
+        dailyStats: [],
+        period: `${days}天`
+      }
+    }
+
     try {
       const startDate = new Date()
       startDate.setDate(startDate.getDate() - days)

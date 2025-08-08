@@ -7,6 +7,7 @@ import Admin from './pages/Admin';
 import Blog from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import Home from './pages/Home';
+import Navigation from './pages/Navigation';
 import Resume from './pages/Resume';
 import Skills from './pages/Skills';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/skills" element={<Skills />} />
+            <Route path="/navigation" element={<Navigation />} />
             <Route path="/resume" element={<Resume />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>

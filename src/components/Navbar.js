@@ -21,6 +21,7 @@ const Navbar = () => {
     { path: '/', label: '首页', icon: Home },
     { path: '/blog', label: '博客', icon: FileText },
     { path: '/skills', label: '技能', icon: Code },
+    { path: '/navigation', label: '前端导航', icon: Code },
     { path: '/resume', label: '简历', icon: User },
   ];
 

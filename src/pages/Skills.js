@@ -12,9 +12,10 @@ import {
   Tooltip,
 } from 'chart.js';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BarChart3, Code, Database, Globe, Shield, Star, TrendingUp, Zap } from 'lucide-react';
+import { BarChart3, Code, Database, Globe, Shield, Star, TrendingUp, Zap, Package } from 'lucide-react';
 import React, { useState } from 'react';
 import { Bar, Doughnut, Radar } from 'react-chartjs-2';
+import FrontendNavigationNew from '../components/FrontendNavigationNew';
 
 // 注册Chart.js组件
 ChartJS.register(
@@ -31,7 +32,7 @@ ChartJS.register(
 );
 
 const Skills = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('navigation');
 
   // 雷达图数据
   const radarData = {
@@ -127,28 +128,7 @@ const Skills = () => {
     ],
   };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: '#fff',
-          font: {
-            size: 12,
-          },
-        },
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
-        borderColor: 'rgba(59, 130, 246, 0.5)',
-        borderWidth: 1,
-      },
-    },
-  };
+  // 通用图表配置（已移除未使用的变量）
 
   // 雷达图专用配置
   const radarOptions = {
@@ -442,7 +422,8 @@ const Skills = () => {
             {[
               { id: 'overview', label: '概览', icon: TrendingUp },
               { id: 'charts', label: '图表', icon: BarChart3 },
-              { id: 'details', label: '详情', icon: Code }
+              { id: 'details', label: '详情', icon: Code },
+              { id: 'navigation', label: '前端导航', icon: Package }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -715,6 +696,18 @@ const Skills = () => {
                   </motion.div>
                 );
               })}
+            </motion.div>
+          )}
+
+          {activeTab === 'navigation' && (
+            <motion.div
+              key="navigation"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6 }}
+            >
+              <FrontendNavigationNew />
             </motion.div>
           )}
         </AnimatePresence>

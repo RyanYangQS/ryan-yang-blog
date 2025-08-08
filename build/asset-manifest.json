@@ -1,13 +1,11 @@
 {
   "files": {
-    "main.css": "/static/css/main.54ebd8f7.css",
-    "main.js": "/static/js/main.6d029ac8.js",
-    "static/media/typescript-best-practices.md": "/static/media/typescript-best-practices.42ee904450e870aba317.md",
-    "static/media/react-performance-optimization.md": "/static/media/react-performance-optimization.f63585d0965f3dcf3ba0.md",
+    "main.css": "/static/css/main.6611ed8f.css",
+    "main.js": "/static/js/main.f54e36df.js",
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.54ebd8f7.css",
-    "static/js/main.6d029ac8.js"
+    "static/css/main.6611ed8f.css",
+    "static/js/main.f54e36df.js"
   ]
 }

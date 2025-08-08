@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Code, FileText, Home, Menu, User, X, LogIn, LogOut, UserPlus } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { Code, FileText, Home, Menu, User, X, LogIn, LogOut, UserPlus, Settings, ChevronDown } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthModal from './AuthModal';
 
@@ -9,6 +9,8 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const userDropdownRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -34,6 +36,18 @@ const Navbar = () => {
     return () => window.removeEventListener('storage', checkAuthStatus);
   }, []);
 
+  // 点击外部关闭下拉菜单
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const navItems = [
     { path: '/', label: '首页', icon: Home },
     { path: '/blog', label: '博客', icon: FileText },
@@ -46,6 +60,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
+    setShowUserDropdown(false);
     window.dispatchEvent(new Event('storage'));
   };
 
@@ -107,45 +122,94 @@ const Navbar = () => {
               })}
 
               {/* 用户认证区域 */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" ref={userDropdownRef}>
                 {currentUser ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex items-center space-x-2"
-                  >
-                    <div className="flex items-center space-x-2 px-3 py-2 bg-dark-700 rounded-lg">
-                      <div className="w-6 h-6 bg-primary-600 rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs font-medium">
+                  <div className="relative">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowUserDropdown(!showUserDropdown)}
+                      className="flex items-center space-x-3 px-4 py-2 bg-dark-700 hover:bg-dark-600 rounded-lg transition-colors"
+                    >
+                      <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-medium">
                           {currentUser.name?.charAt(0)?.toUpperCase() || 'U'}
                         </span>
                       </div>
                       <span className="text-gray-300 text-sm hidden lg:block">
-                        {currentUser.name || currentUser.email}
+                        {currentUser.name || currentUser.nickname || currentUser.email}
                       </span>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleLogout}
-                      className="flex items-center space-x-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span className="hidden lg:block">退出</span>
+                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showUserDropdown ? 'rotate-180' : ''}`} />
                     </motion.button>
-                  </motion.div>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setShowAuthModal(true)}
-                      className="flex items-center space-x-2 px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
-                    >
-                      <LogIn className="w-4 h-4" />
-                      <span className="hidden lg:block">登录</span>
-                    </motion.button>
+
+                    {/* 用户下拉菜单 */}
+                    <AnimatePresence>
+                      {showUserDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          className="absolute right-0 mt-2 w-64 bg-dark-800 rounded-xl border border-dark-600 shadow-2xl overflow-hidden"
+                        >
+                          {/* 用户信息头部 */}
+                          <div className="p-4 border-b border-dark-600">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-lg font-medium">
+                                  {currentUser.name?.charAt(0)?.toUpperCase() || 'U'}
+                                </span>
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="text-white font-semibold">
+                                  {currentUser.name || currentUser.nickname || '用户'}
+                                </h3>
+                                <p className="text-gray-400 text-sm">
+                                  {currentUser.email}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 菜单选项 */}
+                          <div className="py-2">
+                            <Link
+                              to="/profile"
+                              onClick={() => setShowUserDropdown(false)}
+                              className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-dark-700 transition-colors"
+                            >
+                              <User className="w-5 h-5" />
+                              <span>个人信息</span>
+                            </Link>
+                            <button
+                              onClick={() => setShowUserDropdown(false)}
+                              className="w-full flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-dark-700 transition-colors"
+                            >
+                              <Settings className="w-5 h-5" />
+                              <span>设置</span>
+                            </button>
+                            <div className="border-t border-dark-600 my-2"></div>
+                            <button
+                              onClick={handleLogout}
+                              className="w-full flex items-center space-x-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-colors"
+                            >
+                              <LogOut className="w-5 h-5" />
+                              <span>退出登录</span>
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
+                ) : (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowAuthModal(true)}
+                    className="flex items-center space-x-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    <span>登录</span>
+                  </motion.button>
                 )}
               </div>
             </div>
@@ -208,9 +272,24 @@ const Navbar = () => {
                             </span>
                           </div>
                           <span className="text-sm">
-                            {currentUser.name || currentUser.email}
+                            {currentUser.name || currentUser.nickname || currentUser.email}
                           </span>
                         </div>
+                        <Link
+                          to="/profile"
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2 text-primary-400 hover:text-primary-300 hover:bg-dark-700 rounded-lg w-full"
+                        >
+                          <User className="w-5 h-5" />
+                          <span>个人信息</span>
+                        </Link>
+                        <button
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center space-x-3 px-3 py-2 text-gray-400 hover:text-gray-300 hover:bg-dark-700 rounded-lg w-full"
+                        >
+                          <Settings className="w-5 h-5" />
+                          <span>设置</span>
+                        </button>
                         <button
                           onClick={() => {
                             handleLogout();

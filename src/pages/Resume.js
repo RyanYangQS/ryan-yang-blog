@@ -1,9 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookOpen, Building, Calendar, Code, Download, Mail, MapPin, Phone } from 'lucide-react';
-import React, { useState } from 'react';
+import { BookOpen, Building, Calendar, Code, Download, Mail, MapPin, Phone, LogIn, Lock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import AuthModal from '../components/AuthModal';
 
 const Resume = () => {
   const [activeSection, setActiveSection] = useState('experience');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const personalInfo = {
     name: "杨青松",
@@ -172,13 +175,42 @@ const Resume = () => {
     }
   ];
 
+  useEffect(() => {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      setCurrentUser(JSON.parse(user));
+    }
+
+    const handleStorageChange = () => {
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        setCurrentUser(JSON.parse(user));
+      } else {
+        setCurrentUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const handleDownload = () => {
+    if (!currentUser) {
+      setShowAuthModal(true);
+      return;
+    }
+    
     const link = document.createElement('a');
     link.href = '/杨青松web前端开发.pdf';
     link.download = '杨青松web前端开发.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleAuthSuccess = (userData) => {
+    setCurrentUser(userData);
+    setShowAuthModal(false);
   };
 
   return (
@@ -206,15 +238,38 @@ const Resume = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex justify-center mb-12"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleDownload}
-            className="btn-primary inline-flex items-center space-x-2"
-          >
-            <Download className="w-5 h-5" />
-            <span>下载简历</span>
-          </motion.button>
+          {currentUser ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleDownload}
+              className="btn-primary inline-flex items-center space-x-2"
+            >
+              <Download className="w-5 h-5" />
+              <span>下载简历</span>
+            </motion.button>
+          ) : (
+            <div className="text-center">
+              <div className="mb-4 p-6 bg-dark-700 rounded-lg border border-gray-600 max-w-md mx-auto">
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <Lock className="w-6 h-6 text-primary-400" />
+                  <h3 className="text-lg font-semibold text-white">需要登录才能下载</h3>
+                </div>
+                <p className="text-gray-300 mb-4">
+                  只有已注册用户才能下载简历。请先登录您的账户。
+                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowAuthModal(true)}
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  <LogIn className="w-4 h-4" />
+                  <span>立即登录</span>
+                </motion.button>
+              </div>
+            </div>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -538,6 +593,13 @@ const Resume = () => {
           </motion.div>
         </div>
       </div>
+      
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 };

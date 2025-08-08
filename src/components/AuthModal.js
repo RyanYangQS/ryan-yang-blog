@@ -25,14 +25,16 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
         userData = {
           id: result.user.id,
           email: result.user.email,
-          name: result.user.user_metadata?.username || result.user.email
+          name: result.user.user_metadata?.username || result.user.email,
+          nickname: result.user.user_metadata?.username || result.user.email
         };
       } else {
         const result = await authService.signUp(email, password, { username });
         userData = {
           id: result.user.id,
           email: result.user.email,
-          name: username || result.user.email
+          name: username || result.user.email,
+          nickname: username || result.user.email
         };
       }
       

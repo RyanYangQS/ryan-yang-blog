@@ -8,8 +8,10 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.54.0",
     "buffer": "^6.0.3",
     "chart.js": "^4.4.0",
+    "dotenv": "^17.2.1",
     "framer-motion": "^10.16.4",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.292.0",

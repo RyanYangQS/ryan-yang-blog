@@ -60,7 +60,7 @@ const SkillsOverview = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
             whileHover={{ scale: 1.05, rotateY: 5 }}
-            className="skill-card group"
+            className="glass-effect rounded-2xl p-8 border border-dark-600 hover:border-primary-500 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/20 group"
           >
             {/* Icon */}
             <motion.div

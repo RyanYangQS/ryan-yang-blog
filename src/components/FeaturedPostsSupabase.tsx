@@ -2,10 +2,11 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { postService } from '../lib/supabaseService.js';
+import { postService } from '../lib/supabaseService';
+import { Post } from '../lib/supabase';
 
 // 计算阅读时间（基于中文字符数）
-const calculateReadTime = (content) => {
+const calculateReadTime = (content: string) => {
   const chineseCharCount = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
   const englishWordCount = content.replace(/[\u4e00-\u9fa5]/g, '').split(/\s+/).length;
   const totalWords = chineseCharCount + englishWordCount;
@@ -13,67 +14,64 @@ const calculateReadTime = (content) => {
   return `${readTimeMinutes}分钟`;
 };
 
+// 格式化日期
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+
 const FeaturedPosts = () => {
-  const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadFeaturedPosts = async () => {
       try {
         const posts = await postService.getFeaturedPosts();
-        const formattedPosts = posts.map((post, index) => ({
-          id: post.id,
-          slug: post.slug,
-          title: post.title,
-          excerpt: post.excerpt || '文章摘要加载中...',
-          category: post.tags?.[0] || '技术',
-          readTime: calculateReadTime(post.content),
-          publishDate: new Date(post.published_at).toLocaleDateString('zh-CN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          }),
-          image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          tags: post.tags || []
-        }));
-        
-        setFeaturedPosts(formattedPosts);
+        setFeaturedPosts(posts);
       } catch (error) {
         console.error('加载特色文章失败:', error);
         // 设置默认文章
         setFeaturedPosts([
           {
             id: '1',
-            slug: 'react-hooks-depth-analysis',
             title: "React Hooks 深度解析",
+            slug: 'react-hooks-depth-analysis',
+            content: "深入解析React Hooks的核心概念和使用技巧...",
             excerpt: "深入解析React Hooks的核心概念和使用技巧，从useState到自定义Hooks，掌握函数式组件的新范式。",
-            category: "React",
-            readTime: "8分钟",
-            publishDate: "2024年12月15日",
-            image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tags: ["React", "Hooks", "前端"]
+            published_at: '2024-12-15T00:00:00Z',
+            created_at: '2024-12-15T00:00:00Z',
+            updated_at: '2024-12-15T00:00:00Z',
+            tags: ["React", "Hooks", "前端"],
+            featured: true
           },
           {
             id: '2',
-            slug: 'typescript-frontend-practice',
             title: "TypeScript 在前端开发中的实践",
+            slug: 'typescript-frontend-practice',
+            content: "深入探讨TypeScript在前端开发中的应用实践...",
             excerpt: "深入探讨TypeScript在前端开发中的应用实践，从基础类型到高级特性，掌握类型安全的JavaScript开发。",
-            category: "TypeScript",
-            readTime: "12分钟",
-            publishDate: "2024年12月10日",
-            image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tags: ["TypeScript", "JavaScript", "类型系统"]
+            published_at: '2024-12-10T00:00:00Z',
+            created_at: '2024-12-10T00:00:00Z',
+            updated_at: '2024-12-10T00:00:00Z',
+            tags: ["TypeScript", "JavaScript", "类型系统"],
+            featured: true
           },
           {
             id: '3',
-            slug: 'modern-frontend-engineering',
             title: "现代前端工程化实践",
+            slug: 'modern-frontend-engineering',
+            content: "深入探讨现代前端工程化的核心概念...",
             excerpt: "深入探讨现代前端工程化的核心概念和实践经验，从构建工具到自动化部署，掌握企业级前端开发流程。",
-            category: "工程化",
-            readTime: "10分钟",
-            publishDate: "2024年12月5日",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-            tags: ["前端工程化", "Webpack", "CI/CD"]
+            published_at: '2024-12-05T00:00:00Z',
+            created_at: '2024-12-05T00:00:00Z',
+            updated_at: '2024-12-05T00:00:00Z',
+            tags: ["前端工程化", "Webpack", "CI/CD"],
+            featured: true
           }
         ]);
       } finally {
@@ -115,18 +113,18 @@ const FeaturedPosts = () => {
           className="group"
         >
           <Link to={`/blog/${post.slug}`} className="block">
-            <div className="glass-effect rounded-2xl overflow-hidden border border-dark-600 hover:border-primary-500 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/20">
+            <div className="bg-gradient-to-br from-dark-800 to-dark-700 rounded-2xl overflow-hidden border border-dark-600 hover:border-primary-500 transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/20">
               {/* Image */}
               <div className="relative h-48 overflow-hidden">
                 <img
-                  src={post.image}
+                  src={`https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent" />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 bg-primary-600 text-white text-sm font-medium rounded-full">
-                    {post.category}
+                    {post.tags[0] || '技术'}
                   </span>
                 </div>
               </div>
@@ -136,11 +134,11 @@ const FeaturedPosts = () => {
                 <div className="flex items-center space-x-4 text-sm text-gray-400 mb-4">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-4 h-4" />
-                    <span>{post.publishDate}</span>
+                    <span>{formatDate(post.published_at)}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="w-4 h-4" />
-                    <span>{post.readTime}</span>
+                    <span>{calculateReadTime(post.content)}</span>
                   </div>
                 </div>
 
@@ -186,4 +184,4 @@ const FeaturedPosts = () => {
   );
 };
 
-export default FeaturedPosts; 
+export default FeaturedPosts;

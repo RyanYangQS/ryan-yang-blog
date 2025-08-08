@@ -34,6 +34,17 @@ module.exports = {
       fontFamily: {
         'mono': ['Fira Code', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
         'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'handwriting': ['Dancing Script', 'cursive'],
+        'caveat': ['Caveat', 'cursive'],
+        'indie-flower': ['Indie Flower', 'cursive'],
+        'architects-daughter': ['Architects Daughter', 'cursive'],
+        'kalam': ['Kalam', 'cursive'],
+        'shadows-into-light': ['Shadows Into Light', 'cursive'],
+        'patrick-hand': ['Patrick Hand', 'cursive'],
+        'just-another-hand': ['Just Another Hand', 'cursive'],
+        'comic-neue': ['Comic Neue', 'cursive'],
+        'fredoka-one': ['Fredoka One', 'cursive'],
+        'bubblegum-sans': ['Bubblegum Sans', 'cursive'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

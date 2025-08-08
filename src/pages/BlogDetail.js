@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getPostBySlug, formatDate } from '../utils/blogUtils';
 import AuthModal from '../components/AuthModal';
+import { commentService } from '../lib/supabaseService';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -20,6 +21,7 @@ const BlogDetail = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [commentsLoading, setCommentsLoading] = useState(true);
 
   // 检查用户登录状态
   useEffect(() => {
@@ -35,29 +37,18 @@ const BlogDetail = () => {
     return () => window.removeEventListener('storage', checkAuthStatus);
   }, []);
 
-  // 获取博客文章
+  // 获取博客文章和评论
   useEffect(() => {
     const loadPost = async () => {
       try {
         const postData = await getPostBySlug(slug);
         if (postData) {
           setPost(postData);
-          // 模拟获取点赞数和评论
+          // 模拟获取点赞数
           setLikesCount(Math.floor(Math.random() * 50) + 10);
-          setComments([
-            {
-              id: 1,
-              author: '张三',
-              content: '这篇文章写得很好，对React Hooks的讲解很详细！',
-              date: new Date(Date.now() - 86400000).toISOString()
-            },
-            {
-              id: 2,
-              author: '李四',
-              content: 'useEffect的使用确实需要仔细理解，感谢分享经验。',
-              date: new Date(Date.now() - 172800000).toISOString()
-            }
-          ]);
+          
+          // 获取真实评论
+          await loadComments(slug);
         } else {
           console.error('Post not found:', slug);
         }
@@ -72,6 +63,20 @@ const BlogDetail = () => {
       loadPost();
     }
   }, [slug]);
+
+  // 加载评论
+  const loadComments = async (postSlug) => {
+    try {
+      setCommentsLoading(true);
+      const fetchedComments = await commentService.getCommentsByPostId(postSlug);
+      setComments(fetchedComments || []);
+    } catch (error) {
+      console.error('Error loading comments:', error);
+      setComments([]);
+    } finally {
+      setCommentsLoading(false);
+    }
+  };
 
   const handleCopyCode = async (code) => {
     try {
@@ -104,17 +109,23 @@ const BlogDetail = () => {
 
     setSubmitting(true);
     try {
-      // 模拟提交评论
+      // 使用 Supabase 提交评论
       const newComment = {
-        id: Date.now(),
-        author: currentUser.name || currentUser.email,
+        post_id: slug,
+        author: currentUser.name || currentUser.email || '匿名用户',
         content: comment.trim(),
-        date: new Date().toISOString(),
+        user_id: currentUser.id || currentUser.email
       };
-      setComments([newComment, ...comments]);
+
+      await commentService.createComment(newComment);
+      
+      // 重新加载评论
+      await loadComments(slug);
+      
       setComment('');
     } catch (error) {
       console.error('Error submitting comment:', error);
+      alert('评论发布失败，请稍后重试');
     } finally {
       setSubmitting(false);
     }
@@ -431,22 +442,31 @@ const BlogDetail = () => {
 
             {/* Comments List */}
             <div className="space-y-6">
-              {comments.map((comment) => (
-                <div key={comment.id} className="border-b border-gray-700 pb-6 last:border-b-0">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {comment.author.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium">{comment.author}</p>
-                      <p className="text-gray-400 text-sm">{formatDate(comment.date)}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300">{comment.content}</p>
+              {commentsLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto"></div>
+                  <p className="text-gray-400 mt-4">加载评论中...</p>
                 </div>
-              ))}
+              ) : comments.length === 0 ? (
+                <p className="text-gray-400 text-center py-8">暂无评论，快来发表第一条评论吧！</p>
+              ) : (
+                comments.map((comment) => (
+                  <div key={comment.id} className="border-b border-gray-700 pb-6 last:border-b-0">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-medium">
+                          {comment.author.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">{comment.author}</p>
+                                                 <p className="text-gray-400 text-sm">{formatDate(comment.created_at)}</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-300">{comment.content}</p>
+                  </div>
+                ))
+              )}
             </div>
           </motion.div>
         </div>

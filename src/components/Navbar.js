@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthModal from './AuthModal';
 import analyticsService from '../lib/analyticsService';
+import Logo from './Logo';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,10 +122,7 @@ const Navbar = () => {
               className="flex items-center space-x-2"
             >
               <Link to="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-purple-500 rounded-lg flex items-center justify-center">
-                  <Code className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold text-gradient">Ryan Yang</span>
+                <Logo size="xxxl" />
               </Link>
             </motion.div>
 

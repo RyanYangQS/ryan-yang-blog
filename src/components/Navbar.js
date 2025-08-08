@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { BarChart3, Code, FileText, Home, Menu, User, X, LogIn, LogOut, UserPlus, Settings, ChevronDown, Users, Eye, Activity } from 'lucide-react';
+import { BarChart3, Code, FileText, Home, Menu, User, X, LogIn, LogOut, Settings, ChevronDown, Users, Eye, Activity } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthModal from './AuthModal';

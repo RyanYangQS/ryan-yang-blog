@@ -1,11 +1,11 @@
-import { supabase, Analytics, UserSession, UserEvent, HeartbeatLog, AnalyticsSummary, RealtimeStats } from './supabase'
+import { supabase, RealtimeStats } from './supabase'
 
 // Supabase统计服务
 class SupabaseAnalyticsService {
   // 记录页面访问
   async trackPageView(page: string, additionalData: any = {}) {
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('analytics')
         .insert({
           page,

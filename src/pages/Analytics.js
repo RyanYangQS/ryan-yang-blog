@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { BarChart3, Users, Eye, TrendingUp, Calendar, Activity, RefreshCw } from "lucide-react";
 import analyticsService from "../lib/analyticsService";
@@ -16,17 +16,9 @@ const Analytics = () => {
     todayViews: 0
   });
   const [loading, setLoading] = useState(true);
-  const [period, setPeriod] = useState(7);
+  const [period] = useState(7);
 
-  useEffect(() => {
-    loadStats();
-    loadRealTimeStats();
-
-    const interval = setInterval(loadRealTimeStats, 30000);
-    return () => clearInterval(interval);
-  }, [period]);
-
-  const loadStats = async () => {
+  const loadStats = useCallback(async () => {
     try {
       setLoading(true);
       const data = await analyticsService.getHistoricalStats(period);
@@ -39,9 +31,9 @@ const Analytics = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [period]);
 
-  const loadRealTimeStats = async () => {
+  const loadRealTimeStats = useCallback(async () => {
     try {
       const data = await analyticsService.getRealTimeStats();
       setRealTimeStats(data);
@@ -51,7 +43,15 @@ const Analytics = () => {
       const localData = analyticsService.getLocalStats();
       setRealTimeStats(localData);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadStats();
+    loadRealTimeStats();
+
+    const interval = setInterval(loadRealTimeStats, 30000);
+    return () => clearInterval(interval);
+  }, [loadStats, loadRealTimeStats]);
 
   const formatNumber = (num) => {
     if (num >= 1000000) {

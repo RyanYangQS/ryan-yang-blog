@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.54.0",
+    "@vercel/speed-insights": "^1.2.0",
     "buffer": "^6.0.3",
     "chart.js": "^4.4.0",
     "dotenv": "^17.2.1",
@@ -33,7 +34,8 @@
     "eject": "react-scripts eject",
     "init-db": "node scripts/init-db.js",
     "dev": "craco start",
-    "preview": "serve -s build"
+    "preview": "serve -s build",
+    "vercel-build": "npm run build"
   },
   "eslintConfig": {
     "extends": [

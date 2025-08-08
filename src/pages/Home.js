@@ -35,11 +35,12 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
 
   return (
     <div className="min-h-screen">

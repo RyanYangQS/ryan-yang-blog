@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Code, FileText, Home, Menu, User, X, LogIn, LogOut, UserPlus, Settings, ChevronDown } from 'lucide-react';
+import { BarChart3, Code, FileText, Home, Menu, User, X, LogIn, LogOut, UserPlus, Settings, ChevronDown, Users, Eye, Activity } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthModal from './AuthModal';
+import analyticsService from '../lib/analyticsService';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,11 @@ const Navbar = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [stats, setStats] = useState({
+    onlineUsers: 0,
+    totalViews: 0,
+    todayViews: 0
+  });
   const userDropdownRef = useRef(null);
   const location = useLocation();
 
@@ -36,6 +42,22 @@ const Navbar = () => {
     return () => window.removeEventListener('storage', checkAuthStatus);
   }, []);
 
+  // 加载统计数据
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const data = await analyticsService.getRealTimeStats();
+        setStats(data);
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    };
+
+    loadStats();
+    const interval = setInterval(loadStats, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   // 点击外部关闭下拉菜单
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -53,6 +75,7 @@ const Navbar = () => {
     { path: '/blog', label: '博客', icon: FileText },
     { path: '/skills', label: '技能', icon: Code },
     { path: '/resume', label: '简历', icon: User },
+    { path: '/analytics', label: '统计', icon: BarChart3 },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -67,6 +90,15 @@ const Navbar = () => {
   const handleAuthSuccess = (user) => {
     setCurrentUser(user);
     setShowAuthModal(false);
+  };
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
   };
 
   return (
@@ -97,29 +129,48 @@ const Navbar = () => {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.path}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Link
-                      to={item.path}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                        isActive(item.path)
-                          ? 'bg-primary-600 text-white shadow-lg'
-                          : 'text-gray-300 hover:text-white hover:bg-dark-700'
-                      }`}
+            <div className="hidden md:flex items-center space-x-6">
+              {/* 统计信息 */}
+              <div className="flex items-center space-x-4 text-xs">
+                <div className="flex items-center space-x-1 text-green-400">
+                  <Users className="w-3 h-3" />
+                  <span>{formatNumber(stats.onlineUsers)}</span>
+                </div>
+                <div className="flex items-center space-x-1 text-blue-400">
+                  <Activity className="w-3 h-3" />
+                  <span>{formatNumber(stats.todayViews)}</span>
+                </div>
+                <div className="flex items-center space-x-1 text-purple-400">
+                  <Eye className="w-3 h-3" />
+                  <span>{formatNumber(stats.totalViews)}</span>
+                </div>
+              </div>
+
+              {/* 导航菜单 */}
+              <div className="flex items-center space-x-4">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.div
+                      key={item.path}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      <Icon className="w-4 h-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </motion.div>
-                );
-              })}
+                      <Link
+                        to={item.path}
+                        className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300 ${
+                          isActive(item.path)
+                            ? 'bg-primary-600 text-white shadow-lg'
+                            : 'text-gray-300 hover:text-white hover:bg-dark-700'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
 
               {/* 用户认证区域 */}
               <div className="flex items-center space-x-2" ref={userDropdownRef}>

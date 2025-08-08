@@ -3,8 +3,11 @@ import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import PageTracker from './components/PageTracker';
 import Admin from './pages/Admin';
+import Analytics from './pages/Analytics';
 import Blog from './pages/Blog';
+import TestAnalytics from './pages/TestAnalytics';
 import BlogDetail from './pages/BlogDetail';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -16,6 +19,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900">
         <Navbar />
+        <PageTracker />
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -24,6 +28,8 @@ function App() {
             <Route path="/skills" element={<Skills />} />
             <Route path="/resume" element={<Resume />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/test-analytics" element={<TestAnalytics />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
         </AnimatePresence>

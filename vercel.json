@@ -3,16 +3,40 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/logo512.png"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "env": {
-    "MONGODB_URI": "@mongodb-uri",
-    "NEXTAUTH_SECRET": "@nextauth-secret",
-    "NEXTAUTH_URL": "https://your-domain.vercel.app",
-    "GITHUB_ID": "@github-id",
-    "GITHUB_SECRET": "@github-secret",
-    "GOOGLE_ID": "@google-id",
-    "GOOGLE_SECRET": "@google-secret"
+    "REACT_APP_SUPABASE_URL": "@react-app-supabase-url",
+    "REACT_APP_SUPABASE_ANON_KEY": "@react-app-supabase-anon-key"
   }
 } 

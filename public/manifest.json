@@ -1,0 +1,15 @@
+{
+  "short_name": "Ryan Yang Blog",
+  "name": "Ryan Yang - Web Frontend Developer Blog",
+  "icons": [
+    {
+      "src": "Ryan.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

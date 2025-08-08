@@ -67,7 +67,7 @@ const Resume = () => {
 
   const education = [
     {
-      school: "燕山大学",
+      school: "燕山大学 里仁学院",
       major: "电子科学与技术",
       degree: "本科",
       period: "2012 - 2016"

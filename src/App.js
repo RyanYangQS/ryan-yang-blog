@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import PageTracker from './components/PageTracker';
+import MusicPlayer from './components/MusicPlayer';
 import Admin from './pages/Admin';
 import Analytics from './pages/Analytics';
 import Blog from './pages/Blog';
@@ -34,6 +35,7 @@ function App() {
           </Routes>
         </AnimatePresence>
         <Footer />
+        <MusicPlayer />
       </div>
     </Router>
   );

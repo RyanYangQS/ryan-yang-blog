@@ -155,25 +155,12 @@ class SupabaseAnalyticsService {
       return {
         online_users: 1,
         today_views: 1,
-        today_users: 1
+        today_users: 1,
+        total_views: 1
       }
     }
 
     try {
-      // 首先尝试从视图获取数据
-      const { data: viewData, error: viewError } = await supabase
-        .from('realtime_stats')
-        .select('*')
-        .single()
-
-      if (!viewError && viewData) {
-        console.log('Using view data for real-time stats:', viewData)
-        return viewData as RealtimeStats
-      }
-
-      // 如果视图查询失败，使用直接查询
-      console.log('View query failed, using direct queries')
-      
       // 获取在线用户数（最近5分钟活跃的会话）
       const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
       const { data: onlineUsers, error: onlineError } = await supabase
@@ -181,7 +168,7 @@ class SupabaseAnalyticsService {
         .select('session_id')
         .gte('last_activity', fiveMinutesAgo)
 
-      // 获取今日访问量
+      // 获取今日访问量（今日的所有访问记录）
       const today = new Date()
       today.setHours(0, 0, 0, 0)
       
@@ -197,25 +184,26 @@ class SupabaseAnalyticsService {
         .gte('timestamp', today.toISOString())
         .not('user_id', 'is', null)
 
-      console.log('Direct query results:', {
-        onlineUsers: onlineUsers?.length || 0,
-        todayViews: todayViews?.length || 0,
-        todayUsers: todayUsers?.length || 0
-      })
+      // 获取总访问量（所有时间的访问记录）
+      const { data: totalViews, error: totalError } = await supabase
+        .from('analytics')
+        .select('session_id')
 
-      if (onlineError || todayError || usersError) {
-        console.error('Error fetching real-time stats:', { onlineError, todayError, usersError })
+      if (onlineError || todayError || usersError || totalError) {
+        console.error('Error fetching real-time stats:', { onlineError, todayError, usersError, totalError })
         return null
       }
 
       const uniqueOnlineUsers = new Set(onlineUsers?.map(u => u.session_id) || [])
       const uniqueTodayViews = new Set(todayViews?.map(v => v.session_id) || [])
       const uniqueTodayUsers = new Set(todayUsers?.map(u => u.user_id) || [])
+      const uniqueTotalViews = new Set(totalViews?.map(v => v.session_id) || [])
 
       const result = {
-        online_users: Math.max(uniqueOnlineUsers.size, 1),
-        today_views: Math.max(uniqueTodayViews.size, 1),
-        today_users: Math.max(uniqueTodayUsers.size, 1)
+        online_users: uniqueOnlineUsers.size || 1,
+        today_views: uniqueTodayViews.size || 1,
+        today_users: uniqueTodayUsers.size || 1,
+        total_views: uniqueTotalViews.size || 1
       }
 
       console.log('Real-time stats result:', result)
@@ -250,7 +238,7 @@ class SupabaseAnalyticsService {
       // 获取总访问量
       const { data: totalViews, error: totalError } = await supabase
         .from('analytics')
-        .select('*', { count: 'exact' })
+        .select('*')
         .gte('timestamp', startDate.toISOString())
 
       if (totalError) {

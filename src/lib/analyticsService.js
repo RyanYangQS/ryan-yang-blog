@@ -141,11 +141,11 @@ class AnalyticsService {
       
       const stats = await supabaseAnalyticsService.getRealTimeStats();
       
-      if (stats && stats.online_users > 0) {
+      if (stats) {
         return {
           onlineUsers: stats.online_users || 1,
-          totalViews: Math.max(stats.today_views || 1, 1),
-          todayViews: Math.max(stats.today_views || 1, 1),
+          totalViews: stats.total_views || 1,
+          todayViews: stats.today_views || 1,
           timestamp: Date.now()
         };
       } else {
@@ -160,7 +160,6 @@ class AnalyticsService {
       }
     } catch (error) {
       console.error('Error fetching real-time stats:', error);
-      // 返回默认值而不是本地数据
       return {
         onlineUsers: 1,
         totalViews: 1,
@@ -175,11 +174,11 @@ class AnalyticsService {
     try {
       const stats = await supabaseAnalyticsService.getHistoricalStats(days);
       
-      if (stats && stats.topPages && Object.keys(stats.topPages).length > 0) {
+      if (stats) {
         return {
-          totalViews: Math.max(stats.totalViews, 1),
-          uniqueUsers: Math.max(stats.uniqueUsers, 1),
-          uniqueSessions: Math.max(stats.uniqueSessions, 1),
+          totalViews: stats.totalViews || 1,
+          uniqueUsers: stats.uniqueUsers || 1,
+          uniqueSessions: stats.uniqueSessions || 1,
           topPages: stats.topPages || {},
           dailyStats: stats.dailyStats || [],
           period: stats.period || `${days}天`

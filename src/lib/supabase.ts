@@ -120,4 +120,5 @@ export interface RealtimeStats {
   online_users: number
   today_views: number
   today_users: number
+  total_views?: number
 }

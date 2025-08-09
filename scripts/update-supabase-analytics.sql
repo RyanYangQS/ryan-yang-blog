@@ -136,7 +136,8 @@ CREATE OR REPLACE VIEW realtime_stats AS
 SELECT 
   COUNT(DISTINCT us.session_id) as online_users,
   COUNT(DISTINCT a.session_id) as today_views,
-  COUNT(DISTINCT a.user_id) as today_users
+  COUNT(DISTINCT a.user_id) as today_users,
+  (SELECT COUNT(DISTINCT session_id) FROM analytics) as total_views
 FROM user_sessions us
 LEFT JOIN analytics a ON us.session_id = a.session_id 
   AND a.timestamp >= DATE_TRUNC('day', NOW())

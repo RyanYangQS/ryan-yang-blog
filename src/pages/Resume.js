@@ -16,9 +16,7 @@ const Resume = () => {
     location: "浙江杭州",
     github: "https://github.com/ryanyang", // 可保留原有
     linkedin: "https://linkedin.com/in/ryanyang", // 可保留原有
-    website: "https://ryanyang.dev", // 可保留原有
-    avatar: `${process.env.PUBLIC_URL}/logo-ryan.png?v=${Date.now()}`,
-    fallbackAvatar: `${process.env.PUBLIC_URL}/Ryan3.png?v=${Date.now()}`
+    website: "https://ryanyang.dev" // 可保留原有
   };
 
   const experience = [
@@ -284,29 +282,10 @@ const Resume = () => {
             {/* Personal Info */}
             <div className="glass-effect rounded-2xl p-6 mb-8">
               <div className="text-center mb-6">
-                <div className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-primary-500 overflow-hidden bg-dark-700 flex items-center justify-center">
-                  <img
-                    src={personalInfo.avatar}
-                    alt={personalInfo.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      console.error('Avatar load error:', e.target.src);
-                      if (e.target.src !== personalInfo.fallbackAvatar) {
-                        e.target.src = personalInfo.fallbackAvatar;
-                      } else {
-                        // 如果备用头像也失败，显示文字头像
-                        e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = `
-                          <span class="text-white text-2xl font-bold">
-                            ${personalInfo.name.charAt(0).toUpperCase()}
-                          </span>
-                        `;
-                      }
-                    }}
-                    onLoad={(e) => {
-                      console.log('Avatar loaded successfully:', e.target.src);
-                    }}
-                  />
+                <div className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-primary-500 bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center">
+                  <span className="text-white text-2xl font-bold">
+                    {personalInfo.name.charAt(0).toUpperCase()}
+                  </span>
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-2">{personalInfo.name}</h2>
                 <p className="text-primary-400 font-medium">{personalInfo.title}</p>

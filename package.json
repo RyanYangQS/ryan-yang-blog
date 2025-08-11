@@ -35,7 +35,10 @@
     "init-db": "node scripts/init-db.js",
     "dev": "craco start",
     "preview": "serve -s build",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "push": "bash scripts/auto-push.sh",
+    "smart-push": "node scripts/smart-push.js",
+    "deploy": "npm run build && npm run smart-push"
   },
   "eslintConfig": {
     "extends": [

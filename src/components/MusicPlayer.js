@@ -12,8 +12,6 @@ import {
   Shuffle,
   Repeat,
   List,
-  ChevronLeft,
-  ChevronRight,
   Minimize2,
   Maximize2
 } from 'lucide-react';

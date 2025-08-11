@@ -17,8 +17,8 @@ const Resume = () => {
     github: "https://github.com/ryanyang", // 可保留原有
     linkedin: "https://linkedin.com/in/ryanyang", // 可保留原有
     website: "https://ryanyang.dev", // 可保留原有
-    avatar: `${process.env.PUBLIC_URL}/Ryan3.png`,
-    fallbackAvatar: `${process.env.PUBLIC_URL}/Ryan.png`
+    avatar: `${process.env.PUBLIC_URL}/logo-ryan.png`,
+    fallbackAvatar: `${process.env.PUBLIC_URL}/Ryan3.png`
   };
 
   const experience = [

@@ -10,60 +10,67 @@ const Resume = () => {
 
   const personalInfo = {
     name: "杨青松",
-    title: "高级前端开发工程师",
+    title: "前端开发工程师",
     email: "13067915779@163.com",
     phone: "13067915779",
     location: "浙江杭州",
-    github: "https://github.com/ryanyang", // 可保留原有
-    linkedin: "https://linkedin.com/in/ryanyang", // 可保留原有
-    website: "https://ryanyang.dev" // 可保留原有
+    blog: "https://blog.yangqingsong.top/"
   };
 
   const experience = [
     {
       id: 1,
-      company: "华东勘测设计研究院（中软）",
-      position: "前端开发工程师",
+      company: "华东勘测设计研究院-数智工程研究院",
+      position: "前端开发",
       period: "2025.01 - 至今",
-      description: "智能水电调度平台：重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%。\n移动端H5工程管控系统：独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内。",
+      description: "负责智能建设平台相关业务的开发和维护工作\n负责决策支持系统前端部分的搭建及开发维护工作\n负责多网融合通信相关项目的前期技术预研及调研工作\n前端项目优化及性能调优",
       achievements: [],
-      technologies: ["React", "TypeScript", "H5", "可视化"]
+      technologies: ["Vue2", "Vue3", "凤翎UI", "Element Plus"]
     },
     {
       id: 2,
-      company: "智研社（个人工作室）",
-      position: "技术顾问",
+      company: "智研社(个人工作室)",
+      position: "前端技术顾问",
       period: "2024.06 - 2024.12",
-      description: "搭建React+TS技术基座，设计组件开发规范，主导3人前端团队组建，支撑工作室承接电商、教育类SaaS项目开发。",
+      description: "负责前端项目的需求分析、系统设计、编码实现等工作\n负责前端团队组建培训\n负责部分项目的支持和维护",
       achievements: [],
       technologies: ["React", "TypeScript", "SaaS"]
     },
     {
       id: 3,
-      company: "浙江中吾科技",
+      company: "浙江中吾科技有限公司",
       position: "前端负责人",
       period: "2022.08 - 2024.03",
-      description: "一道迈ERP系统（React+wujie微前端）：主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理。\n自研业务组件库（50+组件），减少重复开发工时30%。\n工业PDA解决方案：开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%。",
+      description: "负责一道迈 ERP 系统的搭建、功能开发及维护\n负责前端业务组件库的开发和维护\n负责 SSO 管理系统的搭建、开发、维护\n负责 PDA、H5 项目的搭建、开发、维护\n负责前端团队管理",
       achievements: [],
-      technologies: ["React", "微前端", "H5"]
+      technologies: ["React", "微前端", "H5", "PDA"]
     },
     {
       id: 4,
-      company: "挖财网络",
-      position: "高级前端开发",
-      period: "2020.11 - 2022.06",
-      description: "墨子低代码调试系统：设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具。\nAMX资产管理系统：推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗。",
+      company: "挖财网络技术有限公司",
+      position: "高级前端开发工程师",
+      period: "2020.12 - 2022.06",
+      description: "负责AMX资产管理平台的开发工作\n负责墨子平台物料黑盒调试的开发\n负责运营中台系统 & 调解系统维护开发",
       achievements: [],
-      technologies: ["Vue", "低代码"]
+      technologies: ["React", "NodeJS", "低代码"]
     },
     {
       id: 5,
-      company: "海康威视",
-      position: "前端开发工程师",
-      period: "2016.12 - 2020.06",
-      description: "公安多维融合平台（Vue2+GIS）：集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策。\n国家级雪亮工程：开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%。",
+      company: "杭州菜鸟供应链管理有限公司",
+      position: "高级前端开发工程师 P6+",
+      period: "2020.07 - 2020.11",
+      description: "负责大快递相关业务的开发工作\n负责菜鸟裹裹寄件功能的开发工作",
       achievements: [],
-      technologies: ["Vue", "GIS", "AR/VR"]
+      technologies: ["React", "NodeJS", "埋点平台"]
+    },
+    {
+      id: 6,
+      company: "杭州海康威视系统技术有限公司",
+      position: "前端开发工程师 & 项目经理",
+      period: "2016.12 - 2020.04",
+      description: "负责交通行业相关平台的开发工作以及各地试点项目开发\n负责雪亮工程、可视化大屏展示、公安联合实验室项目开发\n在可视天津项目中担任前端开发以及项目技术经理角色",
+      achievements: [],
+      technologies: ["Vue", "AR&VR", "Echarts", "地图引擎"]
     }
   ];
 
@@ -79,51 +86,58 @@ const Resume = () => {
   const projects = [
     {
       id: 1,
-      name: "智能水电调度平台",
-      highlights: ["重构数据可视化核心模块，优化实时数据渲染性能，使大屏响应速度提升40%"],
-      period: "2025.01 - 至今"
+      name: "卡拉水电站智能建设平台",
+      highlights: ["参与开发及维护质量模块、个人办公模块、综合业务模块、园区子系统等业务开发工作", "根据项目中存在的性能问题进行优化调整，提高项目加载速度"],
+      period: "2025.01 - 至今",
+      tech: "Vue2 + 凤翎UI"
     },
     {
       id: 2,
-      name: "移动端H5工程管控系统",
-      highlights: ["独立完成跨设备兼容方案，采用响应式设计+资源动态加载，在低端安卓设备首屏加载速度优化至1.2s内"],
-      period: "2024.06 - 2024.12"
+      name: "决策支持系统",
+      highlights: ["负责项目从0到1的搭建", "负责项目主要功能模块的开发", "跨项目迁移，将决策支持系统的功能模块迁移到卡拉水电站智能建设平台中"],
+      period: "2025.06 - 2025.09",
+      tech: "Vue3 + Element Plus"
     },
     {
       id: 3,
       name: "一道迈ERP系统",
-      highlights: ["主导系统从0搭建，设计模块化架构，开发产品/销售/仓储等核心模块，支撑日均10万级订单处理"],
+      highlights: ["负责项目从0到1的搭建", "负责主要功能模块（产品、销售、财务、运营、仓库）的开发", "搭建 SSO 权限管理系统"],
       period: "2022.08 - 2024.03"
     },
     {
       id: 4,
-      name: "工业PDA解决方案",
-      highlights: ["开发扫码入库、物流追踪等H5功能，简化工人操作流程，错误率下降65%"],
-      period: "2020.11 - 2022.06"
+      name: "AMX资产管理平台",
+      highlights: ["作为项目 owner 负责需求评审、任务分配、功能开发等工作", "推动建设标准化业务低码流程在项目中落地，实现综合降本提效 35%以上"],
+      period: "2022.01 - 2022.06",
+      tech: "React + NodeJS + 墨子"
     },
     {
       id: 5,
-      name: "墨子低代码调试系统",
-      highlights: ["设计动态物料热更新方案，开发者调试效率提升80%，成为平台核心工具"],
-      period: "2016.12 - 2020.06"
+      name: "墨子平台物料黑盒调试",
+      highlights: ["作为 PM 和主要开发者，主导项目全过程", "物料开发者节省大量打包、部署、调试时间，提效 80%以上"],
+      period: "2021.10 - 2022.01",
+      tech: "React + NodeJS + 墨子"
     },
     {
       id: 6,
-      name: "AMX资产管理系统",
-      highlights: ["推动低代码流程标准化，交付效率提升35%，培养3名新人快速上岗"],
-      period: "2024.06 - 2024.12"
+      name: "运营中台系统 & 调解系统",
+      highlights: ["运营中台为面向运营的营销活动类平台", "调解系统在多地合作法院投入使用"],
+      period: "2021.01 - 2021.09",
+      tech: "React + NodeJS + 墨子"
     },
     {
       id: 7,
-      name: "公安多维融合平台",
-      highlights: ["集成AR/VR实现犯罪热点沙盘推演，支撑4省市公安系统决策"],
-      period: "2020.11 - 2022.06"
+      name: "菜鸟裹裹寄件功能",
+      highlights: ["负责埋点需求的承接，实现功能的开发和维护", "助力双十一营销活动"],
+      period: "2020.07 - 2020.11",
+      tech: "React + NodeJS + 埋点平台"
     },
     {
       id: 8,
-      name: "国家级雪亮工程",
-      highlights: ["开发人员轨迹追踪模块，处理亿级定位数据，项目交付速度领先团队30%"],
-      period: "2016.12 - 2020.06"
+      name: "可视天津 & 国庆安保 & 雪亮工程",
+      highlights: ["作为 PM 及主要研发参与项目全过程", "项目涉及数据治理、AR&VR 全景展示、人员车辆轨迹、数据沙盘等功能"],
+      period: "2019.05 - 2020.04",
+      tech: "Vue + AR&VR + Echarts + 地图引擎"
     }
   ];
 
@@ -131,48 +145,21 @@ const Resume = () => {
     {
       id: 1,
       category: "前端技术",
-      items: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Vue", "Next.js", "wujie微前端"]
+      items: ["HTML5/CSS3", "JavaScript/TypeScript", "Vue 2/3", "React", "Node.js"]
     },
     {
       id: 2,
-      category: "后端技术",
-      items: ["Node.js", "Express", "MongoDB", "PostgreSQL", "Redis", "GraphQL"]
+      category: "开发工具",
+      items: ["AI 开发工具", "Webpack/Vite", "低代码平台", "Git"]
     },
     {
       id: 3,
-      category: "开发工具",
-      items: ["Git", "Webpack", "Vite", "Docker", "Aliyun", "Vercel"]
-    },
-    {
-      id: 4,
       category: "其他技能",
-      items: ["微信小程序", "React Native", "PWA", "性能优化", "单元测试"]
+      items: ["Python", "H5/PDA开发", "Echarts数据可视化", "项目管理"]
     }
   ];
 
-  const certifications = [
-    {
-      id: 1,
-      name: "AWS Certified Developer",
-      issuer: "Amazon Web Services",
-      date: "2023.06",
-      description: "云服务开发和部署认证"
-    },
-    {
-      id: 2,
-      name: "Google Cloud Professional Developer",
-      issuer: "Google",
-      date: "2022.12",
-      description: "Google Cloud平台开发认证"
-    },
-    {
-      id: 3,
-      name: "Microsoft Certified: Azure Developer",
-      issuer: "Microsoft",
-      date: "2022.08",
-      description: "Azure云平台开发认证"
-    }
-  ];
+  const certifications = [];
 
   useEffect(() => {
     const user = localStorage.getItem('currentUser');
@@ -515,42 +502,25 @@ const Resume = () => {
                       <div className="flex justify-between items-start mb-4">
                         <div>
                           <h3 className="text-xl font-bold text-white mb-1">{project.name}</h3>
-                          <p className="text-gray-300">{project.highlights}</p>
+                          {project.tech && (
+                            <p className="text-primary-400 text-sm">{project.tech}</p>
+                          )}
                         </div>
                         <div className="flex items-center space-x-2 text-gray-400">
                           <Calendar className="w-4 h-4" />
                           <span className="text-sm">{project.period}</span>
                         </div>
                       </div>
-                      {/* <div className="mb-4">
-                        <h4 className="text-white font-medium mb-2">主要功能：</h4>
+                      <div className="mb-4">
                         <ul className="space-y-1">
-                          {project.features.map((feature, featureIndex) => (
-                            <li key={featureIndex} className="text-gray-300 text-sm flex items-start space-x-2">
+                          {project.highlights.map((highlight, highlightIndex) => (
+                            <li key={highlightIndex} className="text-gray-300 text-sm flex items-start space-x-2">
                               <span className="text-primary-400 mt-1">•</span>
-                              <span>{feature}</span>
+                              <span>{highlight}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-2 py-1 bg-dark-700 text-gray-300 text-xs rounded-full"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div> */}
-                      {/* <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary-400 hover:text-primary-300 text-sm font-medium"
-                      >
-                        查看项目 →
-                      </a> */}
                     </motion.div>
                   ))}
                 </motion.div>

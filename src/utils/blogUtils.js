@@ -13,7 +13,9 @@ postsContext.keys().forEach((key) => {
   const slug = key.replace(/^\.\//, '').replace(/\.md$/, '');
   // 导入文件内容
   const content = postsContext(key);
-  postsMap[slug] = content;
+  // 处理 raw-loader 返回的内容
+  const fileContent = typeof content === 'string' ? content : (content.default || content);
+  postsMap[slug] = fileContent;
 });
 
 // 获取所有博客文章
@@ -72,14 +74,21 @@ export const getAllPosts = async () => {
 // 获取单个博客文章
 export const getPostBySlug = async (slug) => {
   try {
-    const content = postsMap[slug];
+    let content = postsMap[slug];
     if (!content) {
       console.error(`Post not found: ${slug}`);
+      console.log('Available slugs:', Object.keys(postsMap));
       return null;
     }
 
-    // 确保在浏览器环境中安全地处理内容
-    const fileContent = typeof content === 'string' ? content : content.default;
+    // 处理 raw-loader 返回的内容格式
+    const fileContent = typeof content === 'string' ? content : (content.default || content);
+    
+    if (!fileContent || typeof fileContent !== 'string') {
+      console.error(`Invalid content for post ${slug}:`, typeof fileContent, fileContent);
+      return null;
+    }
+    
     const document = matter(fileContent);
     
     // 使用markdown文件头部的frontmatter信息

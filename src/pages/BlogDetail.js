@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Check, Clock, Copy, Heart, MessageCircle, Share2, Tag, LogIn, ThumbsUp } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Link, useParams } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -47,8 +47,8 @@ const BlogDetail = () => {
           // 模拟获取点赞数
           setLikesCount(Math.floor(Math.random() * 50) + 10);
           
-          // 获取真实评论
-          await loadComments(slug);
+          // 非阻塞加载评论
+          loadComments(slug).catch(err => console.error('评论加载失败:', err));
         } else {
           console.error('Post not found:', slug);
         }
@@ -310,19 +310,21 @@ const BlogDetail = () => {
                         <div className="relative">
                           <button
                             onClick={() => handleCopyCode(code)}
-                            className="absolute top-2 right-2 p-2 bg-dark-800 text-gray-400 hover:text-white rounded transition-colors"
+                            className="absolute top-2 right-2 p-2 bg-dark-800 text-gray-400 hover:text-white rounded transition-colors z-10"
                           >
                             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                           </button>
-                          <SyntaxHighlighter
-                            style={tomorrow}
-                            language={match[1]}
-                            PreTag="div"
-                            className="rounded-lg"
-                            {...props}
-                          >
-                            {code}
-                          </SyntaxHighlighter>
+                          <Suspense fallback={<pre className="bg-dark-800 rounded-lg p-4 overflow-x-auto"><code>{code}</code></pre>}>
+                            <SyntaxHighlighter
+                              style={tomorrow}
+                              language={match[1]}
+                              PreTag="div"
+                              className="rounded-lg"
+                              {...props}
+                            >
+                              {code}
+                            </SyntaxHighlighter>
+                          </Suspense>
                         </div>
                       );
                     }
@@ -368,6 +370,28 @@ const BlogDetail = () => {
                     >
                       {children}
                     </a>
+                  ),
+                  table: ({ children }) => (
+                    <div className="overflow-x-auto my-6">
+                      <table className="min-w-full border border-gray-600 rounded-lg overflow-hidden">
+                        {children}
+                      </table>
+                    </div>
+                  ),
+                  thead: ({ children }) => (
+                    <thead className="bg-dark-700">{children}</thead>
+                  ),
+                  tbody: ({ children }) => (
+                    <tbody className="divide-y divide-gray-600">{children}</tbody>
+                  ),
+                  tr: ({ children }) => (
+                    <tr className="hover:bg-dark-700/50 transition-colors">{children}</tr>
+                  ),
+                  th: ({ children }) => (
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-primary-400 border-b border-gray-600">{children}</th>
+                  ),
+                  td: ({ children }) => (
+                    <td className="px-4 py-3 text-sm text-gray-300">{children}</td>
                   ),
                 }}
               >
